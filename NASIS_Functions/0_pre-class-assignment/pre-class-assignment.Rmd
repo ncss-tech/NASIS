@@ -1,0 +1,126 @@
+---
+title: "Pre-course Assignment"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    keep_md: no
+    number_sections: yes
+    toc_float:
+      collapsed: yes
+      smooth_scroll: no
+---
+
+1. **View** Paul Finnel's [webinar](https://youtu.be/VcdowqknChQ)
+
+2. **Create** a folder on your machine to be used as the working directory for this course at `C:\workspace2`. Use all lower case letters please.
+
+3. Open **RStudio**, and edit some of the "Global Options" (Tools &rarr; Global Options):
+  - **Change** the default working directory to `C:\workspace2` (R General Tab)
+  - **Uncheck** "Restore .Rdata into workspace at startup" (R General Tab)
+  - **Uncheck** "Always save history (even when not saving .RData)" (R General Tab)
+
+  ![Figure 1: Example of RStudio General options settings.](figure/rstudio_options_general.png) 
+
+  - Check "Soft-wrap R source files" (Code/Editing Tab)
+
+  ![Figure 2: Example of RStudio Code options settings.](figure/rstudio_options_code.png) 
+
+
+4. Establish a *safe* location for the R package library. This should ideally be on a local disk with about 1-2GB of free space. This step will prevent R from installing packages to your `$HOME` directory which is typically on a network share (H:). **Copy** the following code in the box below and **paste** into the R console panel after the command prompt (>) and hit **enter**. *Hint: the R console is the lower left or left window in RStudio with a tab labeled "Console".*
+
+```{r, eval=FALSE}
+source('https://raw.githubusercontent.com/ncss-tech/soilReports/master/R/installRprofile.R')
+installRprofile()
+```
+
+An updated set of library paths will be printed. Close RStudio and re-open before continuing to the next step.
+
+![Figure 3: Example of RStudio Console.](figure/rconsole.png)  
+
+
+
+5. **Install** the necessary R packages by **copying and pasting** the following code from box below into the R console window after the command prompt (>) and hit **enter**. Depending on your network connection this could take a while. If this is the first time you've installed a package, R will ask you if you want to create a local repository in your My Documents folder. Click **Yes**.
+
+
+```{r, eval=FALSE}
+# helper fuction for installing required packages from CRAN
+# a simple check is done to see if each is already installed
+# p: vector of package names
+# up: logical- upgrade installed packages?
+ipkCRAN <- function(p, up){
+  if (up) {
+    install.packages(p, dependencies = TRUE)
+  } else {
+    new.pkg <- p[! (p %in% installed.packages()[, "Package"])]
+    if (length(new.pkg) > 0) {
+      message('installing packages from CRAN...')
+      install.packages(new.pkg, dependencies = TRUE)
+    }
+  }
+}
+
+
+## list of packages
+packages <- c(
+  # soil
+  "aqp", "soilDB", "sharpshootR", "soiltexture",
+  # gis
+  "sp", "sf", "raster", "rgdal", "gdalUtils", "RSAGA", "rgrass7",
+  # data management
+  "RODBC", "plyr", "dplyr", "reshape", "reshape2", "stringr", "stringi", "devtools", "httr", "circular", "Rcpp", "knitr", "markdown",
+  # graphics
+  "latticeExtra", "ggplot2", "maps", "mapview", "RColorBrewer", "plotrix", "rpart.plot",
+  # modeling
+  "car", "rms", "randomForest", "party", "caret", "vegan", "ape", "shape",
+  # sampling
+  "clhs",
+  # graphical user interface
+  "Rcmdr"
+  )
+
+## install packages, upgrading as needed
+ipkCRAN(packages, up=TRUE)
+
+## install the latest version of packages from the AQP suite:
+devtools::install_github("ncss-tech/aqp", dependencies=FALSE, upgrade_dependencies=FALSE)
+devtools::install_github("ncss-tech/soilDB", dependencies=FALSE, upgrade_dependencies=FALSE)
+devtools::install_github("ncss-tech/soilReports", dependencies=FALSE, upgrade_dependencies=FALSE)
+devtools::install_github("ncss-tech/sharpshootR", dependencies=FALSE, upgrade_dependencies=FALSE)
+
+## install additional packages
+install.packages("printr", type = "source", repos = c("http://yihui.name/xran", "http://cran.rstudio.com"))
+
+## load packages in the list
+suppressWarnings(sapply(packages, library, character.only = TRUE, quietly = TRUE, logical.return = TRUE))
+```
+
+
+5. Establish an ODBC connection to NASIS by following the directions at the following hyperlink ([ODBC Connection to NASIS](http://ncss-tech.github.io/AQP/soilDB/setup_local_nasis.html)).
+
+Once you've successfully established a ODBC connection, prove it by loading your NASIS selected set with the site and pedon tables for any user pedon id (e.g. 11CA794317), run `fetchNASIS()` in the R console like the example below, and submit your results to Tom D'Avello.
+
+```{r eval=FALSE}
+library(soilDB)
+
+test <- fetchNASIS()
+
+str(test, max.level = 2)
+```
+
+6. Follow the one line example below, copy the output, and submit the results to Tom D'Avello. This will help us to verify that all of the required packages have been installed.
+
+```{r, eval=FALSE}
+# Example
+sessionInfo()
+```
+
+7. Additional Support/Optional Readings
+  
+  * [Spatial Data Analysis and Modeling with R](http://rspatial.org/) (highly recommended)
+  * [R-Intro](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf)
+  * [R for Beginners](ftp://cran.r-project.org/pub/R/doc/contrib/Paradis-rdebuts_en.pdf)
+  * [The R Inferno](http://www.burns-stat.com/documents/books/the-r-inferno/)
+  * [AQP Website and Tutorials](http://ncss-tech.github.io/AQP/)
+  * [Stats for Soil Survey Webinar](https://www.youtube.com/watch?v=G5mFt9k37a4)
+  * [Soil Data Aggregation using R Webinar](https://www.youtube.com/watch?v=wD9Y0Qpv5Tw)
+  
