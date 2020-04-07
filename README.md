@@ -20,3 +20,8 @@ The focus of the National Cooperative Soil Survey (NCSS) is shifting from produc
 
 ## Topics 
 1. [Pedon Count](https://ncss-tech.github.io/NASIS/documents/Pedon)
+
+## NASIS Proposals and/or Issues
+1. [Proposal: Creating functionality for linking to Component Horizon Data](https://github.com/ncss-tech/NASIS/issues/2)
+2. [Proposal: Adding the NASIS Component record ID into the SSURGO component table](https://github.com/ncss-tech/NASIS/issues/3)
+3. [Issue to be aware: NASIS Reports Define & ASSIGN Statements using less than or greater than ](https://github.com/ncss-tech/NASIS/issues/4)
