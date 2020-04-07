@@ -19,4 +19,4 @@ The focus of the National Cooperative Soil Survey (NCSS) is shifting from produc
 12. [Subscription](https://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/survey/tools/?cid=nrcs142p2_053556)
 
 ## Topics 
-1. [Pedon Count](https://jneme910.github.io/NASIS/documents/Pedon)
+1. [Pedon Count](https://ncss-tech.github.io/NASIS/documents/Pedon)
